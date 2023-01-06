@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
+
 const talkerJason = path.resolve(__dirname, './talker.json');
 
 const app = express();
