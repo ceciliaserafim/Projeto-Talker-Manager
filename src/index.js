@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 
-const talkerJason = path.resolve(__dirname, './talker.json');
+const talkerJson = path.resolve(__dirname, './talker.json');
 
 const app = express();
 app.use(express.json());
@@ -16,14 +16,14 @@ app.get('/', (_request, response) => {
 });
 // requisito 1
 app.get('/talker', async (_req, res) => {  
-  const talkerDirect = JSON.parse(await fs.readFile(path.resolve(talkerJason)));
+  const talkerDirect = JSON.parse(await fs.readFile(path.resolve(talkerJson)));
  return res.status(200).json(talkerDirect);
 });
 
 // requisito 2
 app.get('/talker/:id', async (req, res) => {
   try {
-     const talkers = await fs.readFile();
+     const talkers = JSON.parse(await fs.readFile(path.resolve(talkerJson)));
      const talker = talkers.find(({ id }) => id === Number(req.params.id));
      return res.status(200).json(talker);
    } catch (err) {
