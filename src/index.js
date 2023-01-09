@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
+const crypto = require('crypto');
 
 const talkerJson = path.resolve(__dirname, './talker.json');
 
@@ -9,15 +10,6 @@ app.use(express.json());
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
-
-// Criando um token
-const crypto = require('crypto');
-
-function generateToken() {
-  return crypto.randomBytes(8).toString('hex');
-}
-
-module.exports = generateToken;
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -41,13 +33,11 @@ app.get('/talker/:id', async (req, res) => {
 
   // requisito 3
 
-  app.post('/login', (_req, res, next) => {
-    const { email, password } = req.body;
-
-  if ([email, password].includes) {
-    const token = generateToken();
+  app.post('/login', (req, res) => {
+   
+    const token = crypto.randomBytes(8).toString('hex');
     return res.status(200).json({ token });    
-  }
+  
 });
 
 
