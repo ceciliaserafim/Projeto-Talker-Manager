@@ -10,6 +10,15 @@ app.use(express.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
+// Criando um token
+const crypto = require('crypto');
+
+function generateToken() {
+  return crypto.randomBytes(8).toString('hex');
+}
+
+module.exports = generateToken;
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
@@ -22,21 +31,30 @@ app.get('/talker', async (_req, res) => {
 
 // requisito 2
 app.get('/talker/:id', async (req, res) => {
-  try {
+  
      const talkers = JSON.parse(await fs.readFile(path.resolve(talkerJson)));
      const talker = talkers.find(({ id }) => id === Number(req.params.id));
+     if (!talker)return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
      return res.status(200).json(talker);
-   } catch (err) {
-     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
    }
- });
+ );
 
   // requisito 3
-  // app.use(express.json());
+
+  app.post('/login', (_req, res, next) => {
+    const { email, password } = req.body;
+
+  if ([email, password].includes) {
+    const token = generateToken();
+    return res.status(200).json({ token });    
+  }
+});
+
+
+
   // app.post('/login', (req, res) => {
   //   const newLogin = { ...req.body };
-  //   login.push(newLogin);
-  
+  //   login.push(newLogin);  
   //   return res.status(201).json({ login: newLogin });
   // });
 
