@@ -22,31 +22,20 @@ app.get('/talker', async (_req, res) => {
 });
 
 // requisito 2
-app.get('/talker/:id', async (req, res) => {
-  
+
+app.get('/talker/:id', async (req, res) => {  
      const talkers = JSON.parse(await fs.readFile(path.resolve(talkerJson)));
      const talker = talkers.find(({ id }) => id === Number(req.params.id));
-     if (!talker)return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+     if (!talker) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
      return res.status(200).json(talker);
-   }
- );
+   });
 
   // requisito 3
 
-  app.post('/login', (req, res) => {
-   
+  app.post('/login', (req, res) => {   
     const token = crypto.randomBytes(8).toString('hex');
-    return res.status(200).json({ token });    
-  
+    return res.status(200).json({ token });  
 });
-
-
-
-  // app.post('/login', (req, res) => {
-  //   const newLogin = { ...req.body };
-  //   login.push(newLogin);  
-  //   return res.status(201).json({ login: newLogin });
-  // });
 
   // requisito 7
   // app.delete('/talker/:id', (req, res) => {
