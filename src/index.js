@@ -2,6 +2,9 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const crypto = require('crypto');
+const validateEmail = require('./middlewares/validateEmail');
+const ValidatePassword = require('./middlewares/validatePassword');
+const validatePassword = require('./middlewares/validatePassword');
 
 const talkerJson = path.resolve(__dirname, './talker.json');
 
@@ -32,7 +35,7 @@ app.get('/talker/:id', async (req, res) => {
 
   // requisito 3
 
-  app.post('/login', (req, res) => {   
+  app.post('/login', validateEmail, validatePassword, (req, res) => {   
     const token = crypto.randomBytes(8).toString('hex');
     return res.status(200).json({ token });  
 });
