@@ -3,8 +3,13 @@ const fs = require('fs').promises;
 const path = require('path');
 const crypto = require('crypto');
 const validateEmail = require('./middlewares/validateEmail');
-const ValidatePassword = require('./middlewares/validatePassword');
 const validatePassword = require('./middlewares/validatePassword');
+const auth = require('./middlewares/auth');
+const name = require('./middlewares/name');
+const age = require('./middlewares/age');
+const validateTalk = require('./middlewares/validateTalk');
+const watchedAt = require('./middlewares/watchedAt');
+const rate = require('./middlewares/rate');
 
 const talkerJson = path.resolve(__dirname, './talker.json');
 
@@ -33,13 +38,17 @@ app.get('/talker/:id', async (req, res) => {
      return res.status(200).json(talker);
    });
 
-  // requisito 3
+  // requisitos 3 e 4
 
-  app.post('/login', validateEmail, validatePassword, (req, res) => {   
+  app.post('/login', validatePassword, validateEmail, (_req, res) => {   
     const token = crypto.randomBytes(8).toString('hex');
     return res.status(200).json({ token });  
 });
-
+// requisito 5
+app.post('/talker', validateTalk, watchedAt, auth, name, age, rate, (_req, res) => {   
+  const token = crypto.randomBytes(8).toString('hex');
+    return res.status(200).json({ token }); 
+});
   // requisito 7
   // app.delete('/talker/:id', (req, res) => {
   //   const { id } = req.params;
