@@ -4,7 +4,7 @@ const path = require('path');
 const crypto = require('crypto');
 const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
-const auth = require('./middlewares/auth');
+const authorization = require('./middlewares/authorization');
 const name = require('./middlewares/name');
 const age = require('./middlewares/age');
 const validateTalk = require('./middlewares/validateTalk');
@@ -45,26 +45,28 @@ app.get('/talker/:id', async (req, res) => {
     return res.status(200).json({ token });  
 });
 // requisito 5
-app.post('/talker', validateTalk, watchedAt, auth, name, age, rate, (_req, res) => {   
-  const token = crypto.randomBytes(8).toString('hex');
-    return res.status(200).json({ token }); 
+app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, async (req, res) => {
+  const talker = req.body;
+  const talkers = JSON.parse(await fs.readFile('./src/talker.json', 'utf-8'));
+  // console.log(JSON.parse(talkers))
+  talkers.push(talker);
+  const whriteTalker = await fs.writeFile(talkerJson, JSON.stringify(talkers));
+  return res.status(201).json({ whriteTalker });
 });
-  // requisito 7
-  // app.delete('/talker/:id', (req, res) => {
-  //   const { id } = req.params;
-  //   const arrayPosition = talker.findIndex((talkerElement) => talkerElement.id === Number(id));
-  //   talker.splice(arrayPosition, 1);
-  //   res.status(204).end();
-    // authorization Caso o token não seja encontrado retorne um código de status 401, com o seguinte corpo:
-// {
-//   "message": "Token não encontrado"
-// }
-  // Caso o token seja inválido retorne um código de status 401, com o seguinte corpo:
 
-// {
-//   "message": "Token inválido"
-// }
-  // });
+// requisito 6
+// app.put('/talker/:id', validateTalk, watchedAt, rate, auth, name, age, async,(req, res) => {  
+// });
+
+  // requisito 7
+  app.delete('/talker/:id', authorization, async (req, res) => {
+    const { id } = req.params;
+    const talker = await fs.readFile(talkerJson);
+    const filterTalker = talker.filter((talkerElement) => talkerElement.id === Number(id));
+    const updatedTalker = JSON.stringify(filterTalker, null, 2);
+    await fs.writeFile(talkerJson, updatedTalker);
+    res.status(204).send();
+  });
 
 app.listen(PORT, () => {
   console.log('Online');
