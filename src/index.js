@@ -23,9 +23,10 @@ const PORT = '3000';
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
-// requisito 1
+// requisito 1.
 app.get('/talker', async (_req, res) => {  
-  const talkerDirect = JSON.parse(await fs.readFile(path.resolve(talkerJson)));
+  console.log(talkerJson);
+  const talkerDirect = JSON.parse(await fs.readFile('/app/src/talker.json'));
  return res.status(200).json(talkerDirect);
 });
 
@@ -47,25 +48,29 @@ app.get('/talker/:id', async (req, res) => {
 // requisito 5
 app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, async (req, res) => {
   const talker = req.body;
-  const talkers = JSON.parse(await fs.readFile('./src/talker.json', 'utf-8'));
-  // console.log(JSON.parse(talkers))
+  // const talkers = JSON.parse(await fs.readFile(talkerJson));
+  const talkers = JSON.parse(await fs.readFile('/app/src/talker.json'));
+  console.log(talkers);
+  // id no talker
   talkers.push(talker);
-  const whriteTalker = await fs.writeFile(talkerJson, JSON.stringify(talkers));
-  return res.status(201).json({ whriteTalker });
+  console.log(talkers);
+  // writeFile não tem retorno assim como o .push
+  // await fs.writeFile(talkerJson, JSON.stringify(talkers));
+  return res.status(201).json({ message: 'tudo certo!' });
 });
 
 // requisito 6
 // app.put('/talker/:id', validateTalk, watchedAt, rate, auth, name, age, async,(req, res) => {  
 // });
 
-  // requisito 7
+ // requisito 7
   app.delete('/talker/:id', authorization, async (req, res) => {
     const { id } = req.params;
-    const talker = await fs.readFile(talkerJson);
-    const filterTalker = talker.filter((talkerElement) => talkerElement.id === Number(id));
-    const updatedTalker = JSON.stringify(filterTalker, null, 2);
-    await fs.writeFile(talkerJson, updatedTalker);
-    res.status(204).send();
+    const talker = JSON.parse(await fs.readFile('/app/src/talker.json')); 
+    const filterTalker = talker.filter((talkerElement) => talkerElement.id !== Number(id));
+    console.log(filterTalker);
+    await fs.writeFile(talkerJson, JSON.stringify(filterTalker));
+    return res.status(204).send();
   });
 
 app.listen(PORT, () => {
