@@ -47,16 +47,19 @@ app.get('/talker/:id', async (req, res) => {
 });
 // requisito 5
 app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, async (req, res) => {
-  const talker = req.body;
-  // const talkers = JSON.parse(await fs.readFile(talkerJson));
+  const talker = req.body;  
   const talkers = JSON.parse(await fs.readFile('/app/src/talker.json'));
-  console.log(talkers);
   // id no talker
-  talkers.push(talker);
-  console.log(talkers);
+  const newTalker = {
+    //       // acessamos a chave id do ultimo objeto do array de maneira dinâmica e incrementamos + 1 em seu valor
+          id: talkers[talkers.length - 1].id + 1,
+          ...talker,
+        };
+
+  talkers.push(newTalker);  
   // writeFile não tem retorno assim como o .push
-  // await fs.writeFile(talkerJson, JSON.stringify(talkers));
-  return res.status(201).json({ message: 'tudo certo!' });
+  await fs.writeFile(talkerJson, JSON.stringify(talkers));
+  return res.status(201).json(newTalker);
 });
 
 // requisito 6
