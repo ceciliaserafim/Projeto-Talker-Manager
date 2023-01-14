@@ -69,10 +69,13 @@ app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, asy
 // authorization, 
 // name, 
 // age, 
-// async (req, res) => {  
+// async (req, res) => { 
+//   const talkers = JSON.parse(await fs.readFile(talkerJson));
+//   const talker = talkers.find(({ id }) => id === Number(req.params.id));
+
 // });
 
- // requisito 7.
+ // requisito 7
   app.delete('/talker/:id', authorization, async (req, res) => {
     const { id } = req.params;
     const talker = JSON.parse(await fs.readFile('/app/src/talker.json')); 
