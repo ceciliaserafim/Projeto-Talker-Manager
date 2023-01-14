@@ -19,7 +19,7 @@ app.use(express.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
-// não remova esse endpoint, e para o avaliador funcionar
+// não remova esse endpoint, e para o avaliador funcionar.
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
@@ -62,10 +62,17 @@ app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, asy
 });
 
 // requisito 6
-app.put('/talker/:id', validateTalk, watchedAt, rate, auth, name, age, async,(req, res) => {  
-});
+// app.put('/talker/:id',
+// validateTalk, 
+// watchedAt, 
+// rate, 
+// authorization, 
+// name, 
+// age, 
+// async (req, res) => {  
+// });
 
- // requisito 7
+ // requisito 7.
   app.delete('/talker/:id', authorization, async (req, res) => {
     const { id } = req.params;
     const talker = JSON.parse(await fs.readFile('/app/src/talker.json')); 
