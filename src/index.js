@@ -55,7 +55,6 @@ app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, asy
           id: talkers[talkers.length - 1].id + 1,
           ...talker,
         };
-
   talkers.push(newTalker);  
   // writeFile não tem retorno assim como o .push
   await fs.writeFile(talkerJson, JSON.stringify(talkers));
@@ -63,8 +62,8 @@ app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, asy
 });
 
 // requisito 6
-// app.put('/talker/:id', validateTalk, watchedAt, rate, auth, name, age, async,(req, res) => {  
-// });
+app.put('/talker/:id', validateTalk, watchedAt, rate, auth, name, age, async,(req, res) => {  
+});
 
  // requisito 7
   app.delete('/talker/:id', authorization, async (req, res) => {
