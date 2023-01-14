@@ -62,7 +62,14 @@ app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, asy
 });
 
 // requisito 6
-app.put('/talker/:id', validateTalk, watchedAt, rate, authorization, name, age, async (req, res) => { 
+app.put('/talker/:id', 
+validateTalk, 
+watchedAt, 
+rate, 
+authorization, 
+name, 
+age, 
+async (req, res) => { 
   const { id } = req.params;
   const talker = req.body;
   const talkers = JSON.parse(await fs.readFile(talkerJson));
