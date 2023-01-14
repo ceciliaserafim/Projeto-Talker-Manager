@@ -62,18 +62,20 @@ app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, asy
 });
 
 // requisito 6
-// app.put('/talker/:id',
-// validateTalk, 
-// watchedAt, 
-// rate, 
-// authorization, 
-// name, 
-// age, 
-// async (req, res) => { 
-//   const talkers = JSON.parse(await fs.readFile(talkerJson));
-//   const talker = talkers.find(({ id }) => id === Number(req.params.id));
-
-// });
+app.put('/talker/:id', validateTalk, watchedAt, rate, authorization, name, age, async (req, res) => { 
+  const { id } = req.params;
+  const talker = req.body;
+  const talkers = JSON.parse(await fs.readFile(talkerJson));
+  const index = talkers.find((element) => element.id === Number(id));
+  const newTalker = {
+           id: index.id,
+          ...talker,
+        };
+  const indice = talkers.indexOf(index);
+  talkers.splice(indice, 1, newTalker);
+  await fs.writeFile(talkerJson, JSON.stringify(talkers));
+  return res.status(200).json(newTalker);
+});
 
  // requisito 7
   app.delete('/talker/:id', authorization, async (req, res) => {
