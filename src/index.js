@@ -52,7 +52,7 @@ app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, asy
   // id no talker
   const newTalker = {
     //       // acessamos a chave id do ultimo objeto do array de maneira dinâmica e incrementamos + 1 em seu valor
-          id: talkers[talkers.length - 1].id + 1,
+          id: talkers.length + 1,
           ...talker,
         };
   talkers.push(newTalker);  
