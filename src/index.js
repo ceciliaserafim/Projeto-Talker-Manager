@@ -62,7 +62,7 @@ app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, asy
   return res.status(201).json(newTalker);
 });
 
-// requisito 6
+// requisito 6.
 
 app.put('/talker/:id', 
 validateTalk, 
