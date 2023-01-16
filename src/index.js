@@ -11,7 +11,7 @@ const validateTalk = require('./middlewares/validateTalk');
 const watchedAt = require('./middlewares/watchedAt');
 const rate = require('./middlewares/rate');
 
-const talkerJson = path.resolve(__dirname, './talker.json');
+// const talkerJson = path.resolve(__dirname, './talker.json');
 
 const app = express();
 app.use(express.json());
@@ -25,7 +25,7 @@ app.get('/', (_request, response) => {
 });
 // requisito 1.
 app.get('/talker', async (_req, res) => {  
-  console.log(talkerJson);
+  // console.log(talkerJson);
   const talkerDirect = JSON.parse(await fs.readFile('src/talker.json'));
  return res.status(200).json(talkerDirect);
 });
