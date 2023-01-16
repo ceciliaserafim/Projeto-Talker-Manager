@@ -57,7 +57,7 @@ app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, asy
         };
   talkers.push(newTalker);  
   // writeFile não tem retorno assim como o .push
-  await fs.writeFile(talkerJson, JSON.stringify(talkers));
+  await fs.writeFile(('src/talker.json'), JSON.stringify(talkers));
   return res.status(201).json(newTalker);
 });
 
