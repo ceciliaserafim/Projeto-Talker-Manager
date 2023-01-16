@@ -19,7 +19,7 @@ app.use(express.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
-// não remova esse endpoint, e para o avaliador funcionar.
+// não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
@@ -45,7 +45,7 @@ app.get('/talker/:id', async (req, res) => {
     const token = crypto.randomBytes(8).toString('hex');
     return res.status(200).json({ token });  
 });
-// requisito 5
+// requisito 5.
 app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, async (req, res) => {
   const talker = req.body;  
   const talkers = JSON.parse(await fs.readFile('/app/src/talker.json'));
