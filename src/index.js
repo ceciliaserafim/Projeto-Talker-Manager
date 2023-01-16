@@ -48,7 +48,7 @@ app.get('/talker/:id', async (req, res) => {
 // requisito 5.
 app.post('/talker', validateTalk, watchedAt, authorization, name, age, rate, async (req, res) => {
   const talker = req.body;  
-  const talkers = JSON.parse(await fs.readFile('/app/src/talker.json'));
+  const talkers = JSON.parse(await fs.readFile('src/talker.json'));
   // id no talker
   const newTalker = {
     //       // acessamos a chave id do ultimo objeto do array de maneira dinâmica e incrementamos + 1 em seu valor
